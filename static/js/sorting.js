@@ -10,7 +10,15 @@ export function sort(books, key) {
       break;
     case "recent":
     default:
-      copy.sort((a, b) => b.order - a.order);
+      // On Loan books are demoted to the end; each group keeps recency order.
+      copy.sort((a, b) => {
+        const aOnLoan = a.status === "On Loan" ? 1 : 0;
+        const bOnLoan = b.status === "On Loan" ? 1 : 0;
+        if (aOnLoan !== bOnLoan) {
+          return aOnLoan - bOnLoan;
+        }
+        return b.order - a.order;
+      });
       break;
   }
   return copy;
