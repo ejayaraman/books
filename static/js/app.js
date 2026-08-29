@@ -5,7 +5,7 @@ import { apply as applyFilters } from "./filters.js";
 import { sort as sortBooks } from "./sorting.js";
 import { paginate, PAGE_SIZE } from "./pagination.js";
 
-const state = { query: "", genre: "all", language: "all", sort: "recent", page: 1 };
+const state = { query: "", genre: "all", language: "all", status: "all", sort: "recent", page: 1 };
 
 function renderPagination(paginationEl, page, totalPages, onChange) {
   paginationEl.innerHTML = "";
@@ -33,7 +33,7 @@ function renderPagination(paginationEl, page, totalPages, onChange) {
 }
 
 function recompute(books, cardsById, resultsCountEl, paginationEl, grid) {
-  const filtered = applyFilters(books, { genre: state.genre, language: state.language });
+  const filtered = applyFilters(books, { genre: state.genre, language: state.language, status: state.status });
   const searched = filtered.filter((book) => matches(book, state.query));
   const sorted = sortBooks(searched, state.sort);
   const { items: pageItems, page, totalPages } = paginate(sorted, state.page);
@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const searchInput = document.getElementById("search-input");
   const genreFilter = document.getElementById("genre-filter");
   const languageFilter = document.getElementById("language-filter");
+  const statusFilter = document.getElementById("status-filter");
   const sortSelect = document.getElementById("sort-select");
   const resultsCountEl = document.getElementById("results-count");
   const paginationEl = document.getElementById("pagination");
@@ -103,6 +104,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   languageFilter.addEventListener("change", () => {
     state.language = languageFilter.value;
+    updateFromScratch();
+  });
+  statusFilter.addEventListener("change", () => {
+    state.status = statusFilter.value;
     updateFromScratch();
   });
   sortSelect.addEventListener("change", () => {

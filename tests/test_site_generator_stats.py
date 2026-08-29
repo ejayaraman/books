@@ -38,6 +38,16 @@ def test_compute_stats_genres_are_sorted_and_unique() -> None:
     assert stats.genres == ("Fantasy", "Science Fiction")
 
 
+def test_compute_stats_statuses_are_sorted_and_unique() -> None:
+    books = [
+        make_book(id="BK000001", status="On Loan"),
+        make_book(id="BK000002", status="Available"),
+        make_book(id="BK000003", status="Available"),
+    ]
+    stats = compute_stats(books)
+    assert stats.statuses == ("Available", "On Loan")
+
+
 def test_compute_stats_languages_are_sorted_and_unique() -> None:
     books = [
         make_book(id="BK000001", language="English"),

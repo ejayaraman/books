@@ -12,6 +12,7 @@ class CatalogueStats:
     available_count: int
     genres: tuple[str, ...]
     languages: tuple[str, ...]
+    statuses: tuple[str, ...]
 
 
 def compute_stats(books: Sequence[Book]) -> CatalogueStats:
@@ -19,9 +20,11 @@ def compute_stats(books: Sequence[Book]) -> CatalogueStats:
     available_count = sum(1 for book in books if book.status == Status.AVAILABLE.value)
     genres = tuple(sorted({book.genre for book in books if book.genre}))
     languages = tuple(sorted({book.language for book in books if book.language}))
+    statuses = tuple(sorted({book.status for book in books if book.status}))
     return CatalogueStats(
         total_books=total_books,
         available_count=available_count,
         genres=genres,
         languages=languages,
+        statuses=statuses,
     )

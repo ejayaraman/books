@@ -40,6 +40,16 @@
   </label>
 
   <label>
+    Status
+    <select id="status-filter">
+      <option value="all">All statuses</option>
+      {% for status in stats.statuses %}
+      <option value="{{ status }}">{{ status }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>
     Sort by
     <select id="sort-select">
       <option value="recent">Recently added</option>
